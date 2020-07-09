@@ -13,7 +13,7 @@
     var loadTable = function(tableName, onSuccess, onError) {
         return axios.post("/" + mountPoint + "/api/gettable", { tableName: tableName }).then(function (res) {
             inMemoryDB[tableName] = res.data;  
-            self[tableName] = res.data.contents;
+            self[tableName.replace("/","_")] = res.data.contents;
             onSuccess && onSuccess();
             self.$toast.add({ severity: 'info', summary: "S'ha carregat la taula " + tableName, life: 3000 });
         }, function (err) {
@@ -37,10 +37,14 @@
 
     // synchronizes the entire table with server
     var sync = function(tableName, onSuccess, onError) { 
+        var tableName2 = tableName;
+        if(tableName.indexOf("/")>=0) {
+            tableName2 = tableName.replace("/", "_");
+        } 
         var table = {
             name: tableName,
             modified: true,
-            contents: self[tableName]
+            contents: self[tableName2]
         };
         if(!table) {
             onError && onError('Table does not exist');
@@ -63,6 +67,8 @@
     // id ='98234jn-skdjfhd9-3323-ff44'
     // or
     // id = '98234jn-skdjfhd9-3323-ff44:list'
+    // or
+    //     ':list' si el contenidor és un objecte
     var _findObjById = function(list, id) {
         var idParts = id.split(":");
         if(Array.isArray(list)) {
@@ -78,11 +84,16 @@
                 }
             }
         } else if(typeof(list) === 'object') {
-            if(list.id == idParts[0]) {
-                if(idParts.length==1) {
-                    return list;
-                } else {
-                    return list[idParts[1]];
+            if(idParts.length == 2 && idParts[0].trim()=="") {
+                // Cas d'accedir a la propietat d'un objecte :xxx/
+                return list[idParts[1]];
+            } else {
+                if(list.id == idParts[0]) {
+                    if(idParts.length==1) {
+                        return list;
+                    } else {
+                        return list[idParts[1]];
+                    }
                 }
             }
         }

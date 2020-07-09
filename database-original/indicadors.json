@@ -1,4 +1,10 @@
-[
+    [ {
+        "tag": "ISEIB",
+        "img": "img/indicadors/edicio2020/Indicadors-edicio2020.png",
+        "title": "Indicadors del sistema educatiu de les Illes Balears (ISEIB). Edició 2020. (Dades del curs 2017-2018)",
+        "url": "documentos/indicadors/edicio2020/Indicadors_edicio2020.pdf",
+        "date": "3/7/2020"
+    },
     {
         "tag": "RESULTATS",
         "img": "img/indicadors/2018/Informe_indicadors_resultats_2018_2019.png",

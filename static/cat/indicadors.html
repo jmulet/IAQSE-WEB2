@@ -294,7 +294,7 @@
 <script>app.controller("mainController",["$scope","$rootScope","httpService","$filter",function(d,e,n,t){d.pubs=[],d.pubslength=0,d.menuItems=[{label:"Sistema educatiu IB",value:"ISEIB",selected:!0},{label:"Resultats acadèmics",value:"RESULTATS",selected:!1}],d.select=function(e){for(var n=0,t=d.menuItems.length;n<t;n++)d.menuItems[n].selected=!1;e.selected=!0,d.display()},d.display=function(){for(var e=[],n=0,t=indicadorsJSON.length;n<t;n++){for(var s=indicadorsJSON[n],a=!0,l=0,i=d.menuItems.length;l<i;l++)d.menuItems[l].selected&&(a&=s.tag==d.menuItems[l].value);a&&e.push(s)}d.pubslength=e.length,d.pubs=chunker(e,2)},e.$on("iaqse-sessionId",function(e,n){d.updateAnalyticsInfo(n)}),n.loadSchema("indicadors").then(function(e){window.indicadorsJSON=[];for(var n=e.data.length,t=0;t<n;t++){var s=e.data[t];s.hiden||window.indicadorsJSON.push(s)}d.display()})}])</script></main>
                 </div>
             </div>
-                <footer class="py-1" style="width:100%;margin:0" title="Webmaster: IAQSE - Version: 3-7-2020">
+                <footer class="py-1" style="width:100%;margin:0" title="Webmaster: IAQSE - Version: 9-7-2020">
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6">
@@ -318,8 +318,10 @@
 
 <script src="iaqse_bundle2.min.js"></script>
 
+<script src="/webconsole/assets/socket.io.js"></script>
 
-<script>var replaceImgSvg=function(e,a){var g=$(e);g.length&&$.ajax({type:"GET",url:a,contentType:"image/svg+xml;charset=ISO-8859-1",success:function(e){var a=$(e.documentElement);a.addClass(g.attr("class")),g.replaceWith(a)}})};$(function(){$("#tree1").treed(),replaceImgSvg("#svg-logo-cab","../img/svg/iaqse-caib-w.svg"),replaceImgSvg("#logo-iaqse","../img/svg/logo-iaqse.svg")}),function(e,a,g,t,c,s,n){e.GoogleAnalyticsObject=c,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,s=a.createElement(g),n=a.getElementsByTagName(g)[0],s.async=1,s.src="//www.google-analytics.com/analytics.js",n.parentNode.insertBefore(s,n)}(window,document,"script",0,"ga"),ga("create","UA-40778701-3","auto"),ga("send","pageview")</script>
+
+<script>var replaceImgSvg=function(e,a){var t=$(e);t.length&&$.ajax({type:"GET",url:a,contentType:"image/svg+xml;charset=ISO-8859-1",success:function(e){var a=$(e.documentElement);a.addClass(t.attr("class")),t.replaceWith(a)}})};if($(function(){$("#tree1").treed(),replaceImgSvg("#svg-logo-cab","../img/svg/iaqse-caib-w.svg"),replaceImgSvg("#logo-iaqse","../img/svg/logo-iaqse.svg")}),function(e,a,t,o,g,n,c){e.GoogleAnalyticsObject=g,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,n=a.createElement(t),c=a.getElementsByTagName(t)[0],n.async=1,n.src="//www.google-analytics.com/analytics.js",c.parentNode.insertBefore(n,c)}(window,document,"script",0,"ga"),ga("create","UA-40778701-3","auto"),ga("send","pageview"),io){var socket=io();socket.on("reload-event",function(e){window.location.reload()})}</script>
 
 
 

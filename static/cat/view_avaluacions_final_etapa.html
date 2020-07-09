@@ -74,7 +74,7 @@
                 <div class="col-md-6 list-group-item list-group-item-hover" ng-repeat="doc in chk">
                     <span ng-if="doc.hits!=null" style="font-size:105%" class="badge badge-secondary badge-cursor" ng-bind="doc.hits" title="{{doc.hits_title}}" ng-click="loadVisualizations(doc)" data-toggle="modal" data-target="#analyticsModal"></span>
                     <a href="{{doc.url}}" target="_blank" track-type="DOC">
-                        <img ng-src="{{doc.img}}" width="60px" class="fa-pull-left" style="margin-right:10px;box-shadow:3px 3px gray">
+                        <img ng-src="{{doc.img}}" width="60px" class="fa-pull-left" title="{{doc.description}}" style="margin-right:10px;box-shadow:3px 3px gray">
                         <p style="vertical-align:middle;font-size:90%" ng-bind="doc.title"></p>
                     </a>
                 </div>

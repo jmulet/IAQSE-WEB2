@@ -1,182 +1,209 @@
 {
-    "title": "IAQSE",
-    "template": "simple",
-    "baseurl": "cat",
-    "pages": [
+  "title": "IAQSE",
+  "template": "simple",
+  "baseurl": "cat",
+  "pages": [
+    {
+      "title": "Inici",
+      "ejs": "inici",
+      "url": "index",
+      "views": [],
+      "template": "simple",
+      "id": "0f653a60-f244-485a-9323-814d03e182d3"
+    },
+    {
+      "title": "Qui som",
+      "ejs": "qui_som",
+      "url": "quisom",
+      "views": [
         {
-            "title": "Inici",
-            "ejs": "inici",
-            "url": "index",
-            "views": [],
-            "template": "simple"
+          "title": "Índex",
+          "ejs": "quisom/quisom_index",
+          "url": "index",
+          "id": "d9b19278-b43c-404c-b938-4c9ca0262bf9"
         },
         {
-            "title": "Qui som",
-            "ejs": "qui_som",
-            "url": "quisom",
-            "views": [
-                {
-                    "title": "Índex",
-                    "ejs": "quisom/quisom_index",
-                    "url": "index"
-                },
-                {
-                    "title": "Personal",
-                    "ejs": "quisom/quisom_personal",
-                    "url": "personal"
-                },
-                {
-                    "title": "Funcions",
-                    "ejs": "quisom/quisom_funcions",
-                    "url": "funcions"
-                },
-                {
-                    "title": "Legislació",
-                    "ejs": "quisom/quisom_legislacio",
-                    "url": "legislacio"
-                }
-            ]
+          "title": "Personal",
+          "ejs": "quisom/quisom_personal",
+          "url": "personal",
+          "id": "bd26cb40-18b7-4bae-9206-928cf667c626"
         },
         {
-            "title": "Avaluacions",
-            "ejs": "avaluacions",
-            "url": "avaluacions",
-            "views": [
-                {
-                    "title": "Índex",
-                    "ejs": "avaluacions/avaluacions_index",
-                    "url": "index"
-                },
-                {
-                    "title": "Avaluacions de final d'etapa",
-                    "ejs": "avaluacions/avaluacions_final_etapa",
-                    "url": "final_etapa",
-                    "controller": "finaletapa",
-                    "img": "img/avaluacions/finish.png"
-                },
-                {
-                    "title": "Avaluacions de diagnòstic",
-                    "ejs": "avaluacions/avaluacions_diagnostic",
-                    "url": "diagnostic",
-                    "controller": "diagnostic",
-                    "img": "img/avaluacions/diagnostic.png"
-                },
-                {
-                    "title": "Avaluacions internacionals",
-                    "ejs": "avaluacions/avaluacions_internacionals",
-                    "url": "internacionals",
-                    "controller": "internacionals",
-                    "img": "img/avaluacions/globe.png"
-                },
-                {
-                    "title": "Altres avaluacions",
-                    "ejs": "avaluacions/avaluacions_altres",
-                    "url": "altres",
-                    "controller": "altres",
-                    "img": "img/avaluacions/more.png"
-                }
-            ]
+          "title": "Funcions",
+          "ejs": "quisom/quisom_funcions",
+          "url": "funcions",
+          "id": "46976d36-7917-4a27-b4d6-5737b7a06363"
         },
         {
-            "title": "Publicacions",
-            "ejs": "publicacions",
-            "url": "publicacions"
+          "title": "Legislació",
+          "ejs": "quisom/quisom_legislacio",
+          "url": "legislacio",
+          "id": "606ef5f9-89b3-474b-bfc7-23dee7104f23"
+        }
+      ],
+      "id": "36072a05-e049-48a6-b1aa-c2001bd72a50"
+    },
+    {
+      "title": "Avaluacions",
+      "ejs": "avaluacions",
+      "url": "avaluacions",
+      "views": [
+        {
+          "title": "Índex",
+          "ejs": "avaluacions/avaluacions_index",
+          "url": "index",
+          "id": "d79493d7-03a5-40a3-b569-f2c3d4ff624a"
         },
         {
-            "title": "Indicadors",
-            "ejs": "indicadors",
-            "url": "indicadors"
+          "title": "Avaluacions de final d'etapa",
+          "ejs": "avaluacions/avaluacions_final_etapa",
+          "url": "final_etapa",
+          "controller": "finaletapa",
+          "img": "img/avaluacions/finish.png",
+          "id": "95adeef2-4885-4ac5-80d9-5f68a65573d0"
         },
         {
-            "title": "Proves alliberades",
-            "title_long": "Proves alliberades",
-            "ejs": "proves",
-            "url": "proves",
-            "views": [
-                {
-                    "title": "Originals",
-                    "ejs": "proves/index",
-                    "url": "index",
-                    "controller": "index"
-                },
-                {
-                    "title": "Per imprimir",
-                    "ejs": "proves/imprimibles",
-                    "url": "imprimibles",
-                    "controller": "imprimibles"
-                },
-                {
-                    "title": "Interactives",
-                    "ejs": "proves/interactives",
-                    "url": "interactives",
-                    "controller": "interactives"
-                }
-            ]
+          "title": "Avaluacions de diagnòstic",
+          "ejs": "avaluacions/avaluacions_diagnostic",
+          "url": "diagnostic",
+          "controller": "diagnostic",
+          "img": "img/avaluacions/diagnostic.png",
+          "id": "775a9f0e-e341-4eee-a052-7dadcaa968cd"
         },
         {
-            "title": "Prova",
-            "title_long": "Prova interactiva",
-            "ejs": "prova_interactiva",
-            "url": "prova_interactiva", 
-            "comment": "La url necessita de query params",
-            "template": "examen",
-            "hide": true
+          "title": "Avaluacions internacionals",
+          "ejs": "avaluacions/avaluacions_internacionals",
+          "url": "internacionals",
+          "controller": "internacionals",
+          "img": "img/avaluacions/globe.png",
+          "id": "801b223f-1182-4409-a29f-d8c57180ed84"
         },
         {
-            "title": "Gesava2",
-            "title_long": "Ajuda Gesava2",
-            "ejs": "gesava2",
-            "url": "gesava2",  
-            "hide": true,
-            "views":[
-                {
-                    "title": "Triau col·lectiu",
-                    "ejs": "gesava2/colectius",
-                    "url": "index" 
-                },
-                {
-                    "title": "Alumnat",
-                    "ejs": "gesava2/alumnat",
-                    "url": "alu",
-                    "controller": "alumnat"
-                }, 
-                {
-                    "title": "Famílies",
-                    "ejs": "gesava2/families",
-                    "url": "fam",
-                    "controller": "families"
-                }, 
-                {
-                    "title": "Professorat",
-                    "ejs": "gesava2/professorat",
-                    "url": "prof",
-                    "controller": "professorat"
-                }, 
-                {
-                    "title": "Directors",
-                    "ejs": "gesava2/directors",
-                    "url": "dir",
-                    "controller": "directors"
-                }, 
-                {
-                    "title": "Aplicadors",
-                    "ejs": "gesava2/aplicadors",
-                    "url": "apli",
-                    "controller": "aplicadors"
-                }, 
-                {
-                    "title": "Aplicadors mostrals",
-                    "ejs": "gesava2/aplicadors_mostrals",
-                    "url": "apli-mostral",
-                    "controller": "aplicadors_mostrals"
-                }
-            ]
+          "title": "Altres avaluacions",
+          "ejs": "avaluacions/avaluacions_altres",
+          "url": "altres",
+          "controller": "altres",
+          "img": "img/avaluacions/more.png",
+          "id": "ad882271-4548-40d5-856a-012e1bab63b7"
+        }
+      ],
+      "id": "40d6ed12-da71-4218-b9f4-d0c046752614"
+    },
+    {
+      "title": "Publicacions",
+      "ejs": "publicacions",
+      "url": "publicacions",
+      "id": "70cafcfb-f2b5-4115-b73b-69c020a2d0fe"
+    },
+    {
+      "title": "Indicadors",
+      "ejs": "indicadors",
+      "url": "indicadors",
+      "id": "aea6fe60-fa67-4f19-ae18-e6a2b551c4e4"
+    },
+    {
+      "title": "Proves alliberades",
+      "title_long": "Proves alliberades",
+      "ejs": "proves",
+      "url": "proves",
+      "views": [
+        {
+          "title": "Originals",
+          "ejs": "proves/index",
+          "url": "index",
+          "controller": "index",
+          "id": "39c28b29-2b68-4813-9ce1-970feb527058"
         },
         {
-            "title": "Enllaços",
-            "ejs": "enllacos",
-            "url": "enllacos"
-        } 
-
-    ]
+          "title": "Per imprimir",
+          "ejs": "proves/imprimibles",
+          "url": "imprimibles",
+          "controller": "imprimibles",
+          "id": "03b4d26a-52e7-463b-a22d-9e7e60af7600"
+        },
+        {
+          "title": "Interactives",
+          "ejs": "proves/interactives",
+          "url": "interactives",
+          "controller": "interactives",
+          "id": "245e9597-db68-46ab-a456-502d9c42342b"
+        }
+      ],
+      "id": "fac6c085-9290-45f5-9ec1-957a9362b59c"
+    },
+    {
+      "title": "Prova",
+      "title_long": "Prova interactiva",
+      "ejs": "prova_interactiva",
+      "url": "prova_interactiva",
+      "comment": "La url necessita de query params",
+      "template": "examen",
+      "hide": true,
+      "id": "0bdd499e-a6a5-4b3c-837b-ac67b82054d5"
+    },
+    {
+      "title": "Gesava2",
+      "title_long": "Ajuda Gesava2",
+      "ejs": "gesava2",
+      "url": "gesava2",
+      "hide": true,
+      "views": [
+        {
+          "title": "Triau col·lectiu",
+          "ejs": "gesava2/colectius",
+          "url": "index",
+          "id": "6e882635-aecb-49f2-a10e-c9c28f53c8f0"
+        },
+        {
+          "title": "Alumnat",
+          "ejs": "gesava2/alumnat",
+          "url": "alu",
+          "controller": "alumnat",
+          "id": "937bcf10-5ff6-4788-acef-c3dec3aa4981"
+        },
+        {
+          "title": "Famílies",
+          "ejs": "gesava2/families",
+          "url": "fam",
+          "controller": "families",
+          "id": "a3e45129-a54c-496b-932e-e88e8f6b6a06"
+        },
+        {
+          "title": "Professorat",
+          "ejs": "gesava2/professorat",
+          "url": "prof",
+          "controller": "professorat",
+          "id": "cfa586e5-b8d7-4cd2-a35b-ae2eb46f2523"
+        },
+        {
+          "title": "Directors",
+          "ejs": "gesava2/directors",
+          "url": "dir",
+          "controller": "directors",
+          "id": "10615575-6cb9-4ae7-8a3c-4f59bff6c1a6"
+        },
+        {
+          "title": "Aplicadors",
+          "ejs": "gesava2/aplicadors",
+          "url": "apli",
+          "controller": "aplicadors",
+          "id": "2dacc0be-0b3f-426a-9211-c7d9581f490e"
+        },
+        {
+          "title": "Aplicadors mostrals",
+          "ejs": "gesava2/aplicadors_mostrals",
+          "url": "apli-mostral",
+          "controller": "aplicadors_mostrals",
+          "id": "c5c2f3e0-5005-47e0-b4ea-4b14902f4743"
+        }
+      ],
+      "id": "7b8a0535-650a-48ad-8e27-c4e0946d360b"
+    },
+    {
+      "title": "Enllaços",
+      "ejs": "enllacos",
+      "url": "enllacos",
+      "id": "fd8291b1-1c3b-4f1a-93e9-011a3fcb75d6"
+    }
+  ]
 }

@@ -1,6 +1,17 @@
 
 [
     {
+        "tags": [
+            "indicadors"
+        ],
+        "img": "img/indicadors/edicio2020/Indicadors-edicio2020.png",
+        "title": "Indicadors del sistema educatiu de les Illes Balears (ISEIB). Edició 2020. (Dades del curs 2017-2018)",
+        "description": "Text complet (105 pàg.) de l'actualització del catàleg d'indicadors del sistema educatiu de les Illes Balears (fins al curs 2017-2018), l'elaboració i publicació periòdica del qual constitueix una de les línies d'actuació de caràcter estable de l'IAQSE.",
+        "url": "documentos/indicadors/edicio2020/Indicadors_edicio2020.pdf",
+        "date": 2018,
+        "pubdate": "3/7/2020" 
+    },
+    {
         
         "tags": [
             "destacado",

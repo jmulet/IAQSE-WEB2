@@ -45,6 +45,9 @@ module.exports = function (app, mountPoint) {
     app.get('/' + mountPoint + '/enllacos', function (req, res) {
         res.render('webconsole-enllacos', { mountPoint: mountPoint, config: config, routes: routes });
     });
+    app.get('/' + mountPoint + '/routes', function (req, res) {
+        res.render('webconsole-routes', { mountPoint: mountPoint, config: config, routes: routes });
+    });
 
     // Punt de montatge per servir els assests estàtics
     app.use('/'+mountPoint+'/assets', express.static('./iaqse-webconsole/assets'));

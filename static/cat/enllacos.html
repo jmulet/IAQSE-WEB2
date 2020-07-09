@@ -326,7 +326,7 @@
     <script>app.controller("mainController",["$scope","$rootScope","$filter","httpService",function(c,e,l,o){c.chooseType=function(e){c.selectedType={type:window.enllacosJSON[e].type,length:window.enllacosJSON[e].list.length,list:chunker(window.enllacosJSON[e].list,2)}},o.loadSchema("enllacos").then(function(e){window.enllacosJSON=[];for(var l=e.data.length,o=0;o<l;o++){var n=e.data[o];if(!n.hiden){for(var t=[],i=(n.list||[]).length,s=0;s<i;s++)n.list[s].hiden||t.push(n.list[s]);n.list=t,window.enllacosJSON.push(n)}}c.chooseType(0)})}])</script></main>
                 </div>
             </div>
-                <footer class="py-1" style="width:100%;margin:0" title="Webmaster: IAQSE - Version: 3-7-2020">
+                <footer class="py-1" style="width:100%;margin:0" title="Webmaster: IAQSE - Version: 9-7-2020">
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6">
@@ -350,8 +350,10 @@
 
 <script src="iaqse_bundle2.min.js"></script>
 
+<script src="/webconsole/assets/socket.io.js"></script>
 
-<script>var replaceImgSvg=function(e,a){var g=$(e);g.length&&$.ajax({type:"GET",url:a,contentType:"image/svg+xml;charset=ISO-8859-1",success:function(e){var a=$(e.documentElement);a.addClass(g.attr("class")),g.replaceWith(a)}})};$(function(){$("#tree1").treed(),replaceImgSvg("#svg-logo-cab","../img/svg/iaqse-caib-w.svg"),replaceImgSvg("#logo-iaqse","../img/svg/logo-iaqse.svg")}),function(e,a,g,t,c,s,n){e.GoogleAnalyticsObject=c,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,s=a.createElement(g),n=a.getElementsByTagName(g)[0],s.async=1,s.src="//www.google-analytics.com/analytics.js",n.parentNode.insertBefore(s,n)}(window,document,"script",0,"ga"),ga("create","UA-40778701-3","auto"),ga("send","pageview")</script>
+
+<script>var replaceImgSvg=function(e,a){var t=$(e);t.length&&$.ajax({type:"GET",url:a,contentType:"image/svg+xml;charset=ISO-8859-1",success:function(e){var a=$(e.documentElement);a.addClass(t.attr("class")),t.replaceWith(a)}})};if($(function(){$("#tree1").treed(),replaceImgSvg("#svg-logo-cab","../img/svg/iaqse-caib-w.svg"),replaceImgSvg("#logo-iaqse","../img/svg/logo-iaqse.svg")}),function(e,a,t,o,g,n,c){e.GoogleAnalyticsObject=g,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,n=a.createElement(t),c=a.getElementsByTagName(t)[0],n.async=1,n.src="//www.google-analytics.com/analytics.js",c.parentNode.insertBefore(n,c)}(window,document,"script",0,"ga"),ga("create","UA-40778701-3","auto"),ga("send","pageview"),io){var socket=io();socket.on("reload-event",function(e){window.location.reload()})}</script>
 
 
 

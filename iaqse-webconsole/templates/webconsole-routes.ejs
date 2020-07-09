@@ -1,0 +1,469 @@
+<!DOCTYPE html">
+<html lang="es">
+
+<head>
+    <meta title="webconsole-routes" />
+    <%- include head.ejs %>
+</head>
+
+<body>
+    <div id="webconsole-page">
+
+        <%- include header.ejs %>
+ 
+        <h1>RUTES (PÀGINES i VISTES)</h1>
+     
+        <br />
+        <div v-if="!verDlgEditViews">
+            <p-orderlist v-model="config_routes.pages" listStyle="height:auto" dataKey="id" @reorder="reorder">
+                <template #header>
+                    Llistat de pàgines
+                    <center>
+                            <p-button label="Afegir pàgina" @click="addRoute()" class="p-button-success" icon="pi pi-plus">
+                            </p-button>
+                        </center>
+                
+                </template>
+                <template #item="slotProps">
+                    <p-button icon="pi pi-pencil" class="p-button-success" title="Editar pàgines"
+                        @click="routeSelected=clone(slotProps.item);verDlgEditRoute=true;"></p-button>
+
+                    <p-button class="p-button-secondary" title="Editar vistes" :label="(slotProps.item.views || []).length"
+                        @click="routeSelected=clone(slotProps.item);verDlgEditViews=true;"></p-button>
+
+                    <p-button class="p-button-danger" icon="pi pi-trash"
+                        @click="routeSelected=slotProps.item; verDlgDelRoute=true" title="Esborrar ruta">
+                    </p-button>
+
+                    <i class="pi pi-eye-slash" v-if="slotProps.item.hiden"></i>
+                    <i v-if="!slotProps.item.hiden" style="display: inline-block; width: 18px;"></i>
+                    <div style="display: inline-block;">
+                        {{slotProps.item.title}}
+                        <br/>   
+                    </div>
+                </template>
+            </p-orderlist>
+
+            <br/>
+        </div>
+
+        <div v-if="routeSelected && verDlgEditViews">
+
+            <p-button class="p-button-secondary" icon="pi pi-arrow-left" label="Tornar a pàgines" @click="verDlgEditViews=false; routeSelected=null;"></p-button>
+
+            <br/><br/>
+
+            <p-orderlist v-model="routeSelected.views" listStyle="height:auto" dataKey="id" @reorder="reorder">
+                <template #header>
+                    Llistat de vistes en la pàgina {{routeSelected.title}}
+
+                    <center>
+                            <p-button label="Afegir vista" @click="addView()" class="p-button-success" icon="pi pi-plus">
+                            </p-button>
+                    </center>
+                
+                </template>
+                <template #item="slotProps">
+                    <p-button icon="pi pi-pencil" class="p-button-success" title="Editar vista"
+                        @click="viewSelected=clone(slotProps.item);verDlgEditView=true;"></p-button>
+ 
+                    <p-button class="p-button-danger" icon="pi pi-trash"
+                        @click="viewSelected=slotProps.item; verDlgDelView=true" title="Esborrar vista">
+                    </p-button>
+
+                    <i class="pi pi-eye-slash" v-if="slotProps.item.hiden"></i>
+                    <i v-if="!slotProps.item.hiden" style="display: inline-block; width: 18px;"></i>
+                    <div style="display: inline-block;">
+                        {{slotProps.item.title}}
+                        <br/>   
+                    </div>
+                </template>
+            </p-orderlist>
+
+
+        </div>
+
+
+        <!------------------------------------   DIALOGS  ---------------------------------------------------------->
+
+
+        <p-dialog header="Confirmar esborrar pàgina" :visible.sync="verDlgDelRoute" :modal="true">
+            <p>Segur que voleu esborrar aquesta pàgina i les seves vistes?</p>
+            <p-button label="No" icon="pi pi-times" class="p-button-secondary" @click="verDlgDelRoute=false">
+            </p-button>
+            <p-button label="Sí" icon="pi pi-check" class="p-button-danger" @click="esborrarRuta"></p-button>
+        </p-dialog>
+
+
+        <p-dialog header="Confirmar esborrar vista" :visible.sync="verDlgDelView" :modal="true">
+                <p>Segur que voleu esborrar aquesta vista?</p>
+                <p-button label="No" icon="pi pi-times" class="p-button-secondary" @click="verDlgDelView=false">
+                </p-button>
+                <p-button label="Sí" icon="pi pi-check" class="p-button-danger" @click="esborrarView"></p-button>
+            </p-dialog>
+
+
+
+        <p-dialog header="Editar pàgina" :visible.sync="verDlgEditRoute" :modal="true" :maximizable="true">
+            <div v-if="routeSelected">
+                <br />
+
+                <table class="p-datatable" style="width: 98%;">
+                    <thead class="p-datatable-thead">
+                        <tr>
+                            <th style="width: 20%;">Propietat</th>
+                            <th style="width: 80%;">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody class="p-datatable-tbody">
+                        <tr v-if="routeSelected.id">
+                            <td colspan="2"><span style="color:gray"><i class="pi pi-key"></i>
+                                    {{routeSelected.id}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>Visibilitat</td>
+                            <td>
+                                <p-togglebutton v-model="routeSelected.hide" on-label="Amagat" off-label="Visible"
+                                    on-icon="pi pi-eye-slash" off-icon="pi pi-eye"></p-togglebutton>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Títol</td>
+                            <td>
+                                <p-inputtext v-model="routeSelected.title" style="width: 100%;"></p-inputtext>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Títol llarg</td>
+                            <td>
+                                    <p-textarea v-model="routeSelected.title_long" style="width: 100%;"></p-textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nom fitxer ejs *Sense extensió</td>
+                            <td>
+                                <p-inputtext :disabled="routeSelected.id" v-model="routeSelected.ejs" style="width: 100%;"></p-inputtext>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>url</td>
+                            <td>
+                                <p-inputtext v-model="routeSelected.url" style="width: 100%;">
+                                </p-inputtext>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Plantilla</td>
+                            <td>
+                                <p-inputtext v-model="routeSelected.template" style="width: 100%;">
+                                </p-inputtext>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <br />
+
+                <p-button icon="pi pi-times" class="p-button-secondary"
+                    @click="verDlgEditRoute=false; routeSelected=null;" label="Cancel·lar"></p-button>
+                <p-button icon="pi pi-tick" class="p-button-primary" @click="confirmEditRuta" label="Acceptar">
+                </p-button>
+            </div>
+        </p-dialog>
+ 
+ 
+        <p-dialog header="Editar vista en pàgina" :visible.sync="verDlgEditView" :modal="true" :maximizable="true">
+                <div v-if="viewSelected">
+                    <br />
+    
+                    <table class="p-datatable" style="width: 98%;">
+                        <thead class="p-datatable-thead">
+                            <tr>
+                                <th style="width: 20%;">Propietat</th>
+                                <th style="width: 80%;">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody class="p-datatable-tbody">
+                            <tr v-if="viewSelected.id">
+                                <td colspan="2"><span style="color:gray"><i class="pi pi-key"></i>
+                                        {{viewSelected.id}}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Visibilitat</td>
+                                <td>
+                                    <p-togglebutton v-model="viewSelected.hide" on-label="Amagat" off-label="Visible"
+                                        on-icon="pi pi-eye-slash" off-icon="pi pi-eye"></p-togglebutton>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Títol</td>
+                                <td>
+                                    <p-inputtext v-model="viewSelected.title" style="width: 100%;"></p-inputtext>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nom fitxer ejs *Sense extensió</td>
+                                <td>
+                                    <p-inputtext :disabled="viewSelected.id" v-model="viewSelected.ejs" style="width: 100%;"></p-inputtext>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>url</td>
+                                <td>
+                                    <p-inputtext v-model="viewSelected.url" style="width: 100%;">
+                                    </p-inputtext>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nom del controlador</td>
+                                <td>
+                                    <p-inputtext :disabled="viewSelected.id"  v-model="viewSelected.controller" style="width: 100%;">
+                                    </p-inputtext>
+                                </td>
+                            </tr>
+                            <tr>
+                                    <td>Imatge (opcional)</td>
+                                    <td>
+                                        <p-inputtext v-model="viewSelected.img" style="width: 100%;">
+                                        </p-inputtext>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                    <br />
+    
+                    <p-button icon="pi pi-times" class="p-button-secondary"
+                        @click="verDlgEditView=false; viewSelected=null;" label="Cancel·lar"></p-button>
+                    <p-button icon="pi pi-tick" class="p-button-primary" @click="confirmEditView" label="Acceptar">
+                    </p-button>
+                </div>
+            </p-dialog>
+     
+        <% include common-dlg.ejs %>
+    </div>
+    <%- include footer.ejs %>
+
+    <script>
+        requirejs(['p_orderlist', 'p_dialog', 'p_textarea', 'p_togglebutton', 'p_dropdown', 'p_tabview', 'p_tabpanel', 'p_chips'],
+            function (p_orderlist, p_dialog, p_textarea, p_togglebutton, p_dropdown, p_tabview, p_tabpanel) {
+
+                Vue.component('p-tabview', p_tabview);
+                Vue.component('p-tabpanel', p_tabpanel);
+                Vue.component('p-orderlist', p_orderlist);
+                Vue.component('p-dialog', p_dialog);
+                Vue.component('p-textarea', p_textarea);
+                Vue.component('p-togglebutton', p_togglebutton);
+                Vue.component('p-dropdown', p_dropdown); 
+
+                var vm = new Vue({
+                    el: '#webconsole-page',
+                    data: function () {
+                        return {
+                            menuModel: menuModelBuilder(),
+                            config_routes: {pages: []},
+                            routeSelected: null,
+                            viewSelected: null,
+                            verDlgConfirmPublicar: false,
+                            verDlgGenerant: false,
+                            verDlgPublicant: false,
+                            verDlgDelRoute: false,
+                            verDlgPreviewImage: false,
+                            verDlgEditRoute: false,
+                            verDlgEditViews: false,
+                            verDlgEditView: false,
+                            verDlgDelView: false
+                        }
+                    },
+                    mounted: function () {
+                        db = myjdb('<%=mountPoint%>', this);
+                        db.loadTable('config/routes');
+                    },
+                    methods: {
+                        persist: function () {
+                            var self = this;
+                            this.verDlgGenerant = true;
+                            db.persist().then(function (ok) {
+                                console.log(ok);
+                                self.verDlgGenerant = false;
+                                if (ok) {
+                                    self.$toast.add({ severity: 'success', summary: "S'han persistit els canvis a disc", life: 3000 });
+                                } else {
+                                    self.$toast.add({ severity: 'error', summary: "No s'han pogut persistir els canvis a disc" });
+                                }
+                            }, function (err) {
+                                console.log(err);
+                                self.verDlgGenerant = false;
+                                self.$toast.add({ severity: 'error', summary: "No s'han pogut persistir els canvis a disc" });
+                            });
+                        },
+                        publish: function() {
+                            var self = this;
+                            this.verDlgPublicant = true;
+                            axios.post("/<%=mountPoint%>/api/publish").then(function(res) {
+                                console.log(res);
+                                self.verDlgPublicant = false;
+                                if(res.data.result) {
+                                    self.$toast.add({ severity: 'success', summary: "S'ha publicat corectament el lloc web"});
+                                } else {
+                                    self.$toast.add({ severity: 'error', summary: "No s'han pogut publicar el lloc web"});
+                                }
+                            }, function(err) {
+                                self.verDlgPublicant = false;
+                                console.log(err);
+                                self.$toast.add({ severity: 'error', summary: "No s'han pogut publicar el lloc web"});
+                            });
+                        }, 
+                        addRoute: function () {
+                            this.routeSelected = {
+                                title_long: 'Nova Pàgina',
+                                title: 'newpage',
+                                ejs: 'newpage',
+                                url: 'pnova',
+                                views: [],
+                                template: 'simple'
+                            };
+
+                            this.verDlgEditRoute = true;
+                        },
+                        esborrarRuta: function () {
+                            if (!this.routeSelected) {
+                                return;
+                            }
+                            db.remove('config/routes', ':pages/' + this.routeSelected.id);
+                            // TODO eliminar ruta
+                            this.verDlgDelRoute = false;
+                            this.routeSelected = null;
+                        },
+                        reorder: function (event) {
+                            if (window.reorderTimeout) {
+                                clearTimeout(window.reorderTimeout);
+                            }
+                            window.reorderTimeout = setTimeout(function () {
+                                db.sync('config/routes');
+                            }, 2000);
+                        },
+                        confirmEditRuta: function () {
+                            var self = this;
+                            if (this.routeSelected == null) {
+                                return;
+                            }
+                            if (this.routeSelected.id) {
+                                // update
+                                db.update('config/routes', ':pages/' + this.routeSelected.id, this.routeSelected);
+                            } else {
+                                // insert
+                                // Comprova si no hi ha cap altre ruta amb aquest nom
+                                // TODO Comprova que no s'ha creat ...
+                                var existeix = false;
+                                for(var i=0, len=this.config_routes.pages.length; i<len; i++) {
+                                    var pp = this.config_routes.pages[i];
+                                    if(pp.ejs == this.routeSelected.ejs ||
+                                       pp.url == this.routeSelected.url) {
+                                        existeix = true;
+                                        break;
+                                    }
+                                }
+                                if(existeix) {
+                                    self.$toast.add({ severity: 'error', summary: "Ja existeix una pàgina amb el mateix nom de url o ejs"});
+                                } else {
+                                    var onSuccess = function() {
+                                        // Ha de crear l'ejs dins ejs-pages
+                                        axios.post("/<%=mountPoint%>/api/crearpagina", {route: self.routeSelected}).then(function(res) {
+                                            if(res.data.result) {
+                                                self.$toast.add({ severity: 'success', summary: "S'ha creat " + self.routeSelected.ejs + ".ejs", life: 3000});
+                                            } else {
+                                                self.$toast.add({ severity: 'error', summary: "No s'ha pogut crear la pàgina " + self.routeSelected.ejs + ".ejs"});
+                                            }
+                                        });
+                                    }; 
+                                    db.add(this.routeSelected, 'config/routes', ':pages', 0, onSuccess);
+                                }
+                            }
+                            this.verDlgEditRoute = false;
+                        },
+                        addView: function() {
+                            this.viewSelected = {
+                                title: "xxx",
+                                ejs: this.routeSelected.url+"/xxx",
+                                url: "xxx",
+                                controller: "xxx",
+                                img: ""
+                            };
+                            this.verDlgEditView = true;
+                        },
+                        editView: function() {
+
+
+                        },
+                        confirmEditView: function() {
+                            var self = this;
+                            this.verDlgEditView = false;
+                            if (this.routeSelected == null || this.viewSelected == null) {
+                                return;
+                            }
+                            if (this.viewSelected.id) {
+                                // update
+                                var pathId = ':pages/' + this.routeSelected.id + ":views/"+this.viewSelected.id;
+                                db.update('config/routes', pathId, this.viewSelected);
+                            } else {
+                                // insert
+                                // Comprova si no hi ha cap altre ruta amb aquest nom
+                                // TODO Comprova que no s'ha creat ...
+                                var existeix = false;
+                                for(var i=0, len=this.routeSelected.views.length; i<len; i++) {
+                                    var pp = this.routeSelected.views[i];
+                                    if(pp.ejs == this.viewSelected.ejs ||
+                                       pp.url == this.viewSelected.url) {
+                                        existeix = true;
+                                        break;
+                                    }
+                                }
+                                if(existeix) {
+                                    self.$toast.add({ severity: 'error', summary: "Ja existeix una vista amb el mateix nom de url o ejs"});
+                                } else {
+                                    var onSuccess = function() {
+                                        // Ha de crear l'ejs dins ejs-pages
+                                        axios.post("/<%=mountPoint%>/api/crearpagina", {route: self.viewSelected, view: true}).then(function(res) {
+                                            if(res.data.result) {
+                                                self.$toast.add({ severity: 'success', summary: "S'ha creat la vista " + self.viewSelected.ejs + ".ejs", life: 3000});
+                                            } else {
+                                                self.$toast.add({ severity: 'error', summary: "No s'ha pogut crear la vista " + self.viewSelected.ejs + ".ejs"});
+                                            }
+                                        });
+                                    }; 
+                                    db.add(this.viewSelected, 'config/routes', ':pages/' + this.routeSelected.id + ':views' , 0, onSuccess);
+                                }
+                            }
+                           
+                        },
+                        addView: function() {
+                            this.viewSelected = {
+                                title: "xxx",
+                                ejs: this.routeSelected.url+"/xxx",
+                                url: "xxx",
+                                controller: "xxx",
+                                img: ""
+                            };
+                            this.verDlgEditView = true;
+
+                        },
+                        esborrarView: function() {
+                            if (!this.viewSelected || !this.routeSelected) {
+                                return;
+                            }
+                            db.remove('config/routes', ':pages/' + this.routeSelected.id + ":views/" + this.viewSelected.id);
+                            // TODO eliminar ruta
+                            this.verDlgDelView = false;
+                            this.viewSelected = null;
+                        }
+
+                    }
+                });
+
+            });
+
+    </script>
+</body>
+
+</html>

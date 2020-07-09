@@ -86,6 +86,79 @@ module.exports = function(app, mountPoint) {
         res.send({result: myjdb.showtables()});
     });
 
+    app.post('/'+mountPoint+'/api/crearpagina', function(req, res) {
+        const route = req.body.route;
+        const isView = req.body.view;
+
+        const desti = path.resolve(path.join("./ejs-pages", route.ejs + ".ejs"));
+        try {
+            if(fs.statSync(desti)){
+                res.send({result: false, msg: "The file already exists"});
+                return;
+            }
+        } catch(ex){}
+
+        const dname = path.dirname(desti);
+        try {
+            fs.statSync(dname);
+        } catch(ex){
+            fs.mkdirSync(dname);
+        }
+
+        let font = "";
+
+        if(isView) {
+            font = `
+            <!-- Això és una vista d'exemple. Modifiqueu-ne el contingut -->
+            <div class="row">
+                    <h4>Vista: ${route.title}</h4>
+                    <p> <button ng-click="sampleAction()" class="btn btn-primary">Acció de prova</button></p>
+                    <p ng-bind="missatge"></p>
+            </div>
+            
+            <script>
+                app.controller("${route.controller}Controller", ["$scope", "$filter", "httpService", function ($scope, $filter, httpService) {
+                    $scope.missatge = "";
+                    $scope.sampleAction = function() {
+                        $scope.missatge = "Benvingut a angularjs!";
+                    };
+                }]);
+            </script>`;
+        } else {
+             font = `
+<!-- Això és una pàgina d'exemple. Modifiqueu el contingut de la pàgina -->
+<div class="row">
+        <h4>Pàgina: ${route.title}</h4>
+        <ul>
+            <li ng-repeat="item in sampleList">
+                <span ng-bind="item"></span>
+            </li>
+        </ul>
+</div>
+
+<!-- Aquí s'injectaran les vistes -->
+<div ng-view id="routedContent">
+</div>
+
+<script>
+    app.controller("mainController", ["$scope", "httpService", function ($scope, httpService) {
+        <% if(config.remoteURL) { %>
+        httpService.hit(location.href, "PAGE");
+        <% } %>
+        $scope.sampleList = ["A", "B", "C", "D"];
+    }]);
+</script>`;
+        }
+        
+        try {
+            fs.writeFileSync(desti, font, {encoding: 'utf8'});
+        } catch(ex) {
+            res.send({result: false, msg: ex});
+            return;
+        }
+        res.send({result: true});
+    });
+ 
     const _persist = function(table, development) {
         // Pot contenir opcionalment una taula per actualitzar primer
         let result = true;

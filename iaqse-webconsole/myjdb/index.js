@@ -90,6 +90,10 @@ const init = function() {
             fileName = fileName.replace(".json", "");
             fileName = 'config/' + fileName;
             const contents = JSON.parse(rawContent);
+            if(fileName == "config/routes") {
+                 // all objects in contents must have an id field, if not (it must be created)!
+                 ensureIdsOnObjects(contents.pages);
+            }
             inMemoryDB[fileName] = {
                 name: fileName,
                 modified: false,
@@ -179,11 +183,16 @@ const _findObjById = function(list, id) {
             }
         }
     } else if(typeof(list) === 'object') {
-        if(list.id == idParts[0]) {
-            if(idParts.length==1) {
-                return list;
-            } else {
-                return list[idParts[1]];
+        if(idParts.length == 2 && idParts[0].trim()=="") {
+            // Cas d'accedir a la propietat d'un objecte :xxx/
+            return list[idParts[1]];
+        } else {
+            if(list.id == idParts[0]) {
+                if(idParts.length==1) {
+                    return list;
+                } else {
+                    return list[idParts[1]];
+                }
             }
         }
     }
